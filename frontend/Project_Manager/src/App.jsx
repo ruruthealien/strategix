@@ -1,14 +1,17 @@
 import React from 'react'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+
 import Login from './pages/Auth/login'
 import SignUp from './pages/Auth/SignUp'
 import ManageTask from './pages/Admin/ManageTask';
 import CreateTask from './pages/Admin/CreateTask';
 import ManageUsers from './pages/Admin/ManageUsers';
 import Dashboard from './pages/Admin/Dashboard';
+
 import UserDashboard from './pages/Users/UserDashboard';
 import MyTask from './pages/Users/MyTask';
 import ViewTaskDetails from './pages/Users/ViewTaskDetails';
+
 import PrivateRoutes from './routes/PrivateRoutes';
 
 const App = () => {
