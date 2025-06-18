@@ -1,0 +1,1 @@
+mongodb password: mongodb+srv://cosmicros4583:GTCxQL5rx0UTIRDc@cluster0.a2fhvex.mongodb.net/
