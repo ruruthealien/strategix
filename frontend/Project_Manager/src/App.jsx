@@ -1,7 +1,7 @@
 import React from 'react'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 
-import Login from './pages/Auth/login'
+import Login from './pages/Auth/Login'
 import SignUp from './pages/Auth/SignUp'
 import ManageTask from './pages/Admin/ManageTask';
 import CreateTask from './pages/Admin/CreateTask';

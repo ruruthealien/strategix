@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import AuthLayout from "../../componets/layout/AuthLayout";
 import { Link, useNavigate } from "react-router-dom";
 import Input from "../../componets/Inputs/Input";
+import { validateEmail } from "../../utils/helper";
+
 
 
 
@@ -13,7 +15,6 @@ const Login = () => {
   const navigate = useNavigate();
 
 // handle login form submit
-
 const handleLogin = async(e)=>{
   e.preventDefault();
 
@@ -33,8 +34,8 @@ const handleLogin = async(e)=>{
 };
 
   return <AuthLayout>
-    <div className="lg:w-[70%] h-3/4 md:h-full flex flex-col justify-center">
-      <h3 className="text-[30px] font-semibold text-white"> Welcome Back </h3>
+    <div className="lg:w-[70%] min-h-full flex flex-col justify-start pt-45 ">
+      <h3 className="text-[30px] font-semibold text-white pt-8"> Welcome Back </h3>
       <p className="text-xs text-yellow-100 mt-[5px] mb-6"> Please enter your details to log in. </p>
 
       <form onSubmit={handleLogin}>
@@ -44,6 +45,7 @@ const handleLogin = async(e)=>{
             label = "Email Address"
             placeholder = "john@email.com"
             type = "text"
+            required = 'true'
             />
 
             <Input
@@ -52,6 +54,7 @@ const handleLogin = async(e)=>{
             label = "Password"
             placeholder = "Min 8 characters"
             type = "password"
+            required = "true"
             />
 
             {error && <p className="text-red-500 text-xs mt-2">{error}</p>}
