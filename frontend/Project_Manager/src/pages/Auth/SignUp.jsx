@@ -1,56 +1,107 @@
-import React, { useState } from 'react'
-import AuthLayout from '../../componets/layout/AuthLayout'
-import { validateEmail } from '../../utils/helper';
-import ProfilePhotoSelector from '../../componets/Inputs/ProfilePhotoSelector';
+import React, { useState } from "react";
+import AuthLayout from "../../componets/layout/AuthLayout";
+import { validateEmail } from "../../utils/helper";
+import ProfilePhotoSelector from "../../componets/Inputs/ProfilePhotoSelector";
+import Input from "../../componets/Inputs/Input";
+import { Link } from "react-router-dom";
 
 const SignUp = () => {
-// creating variables
-const [profilePic, setProfilePic] = useState(null);
-const [fullName, setFullName] = useState("");
-const [email, SetEmail] = useState("");
-const [password, setPassword] = useState("");
-const [adminInviteToken, setAdminInviteToken] = useState("");
+  // creating variables
+  const [profilePic, setProfilePic] = useState(null);
+  const [fullName, setFullName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [adminInviteToken, setAdminInviteToken] = useState("");
 
-const [error, setError] = useState(null); 
+  const [error, setError] = useState(null);
 
- // handle SignUp form submit
- const handleSignUp = async(e)=>{
-   e.preventDefault();
- 
-   if(!fullName){
-     setError("Please enter a full name");
-     return;
-   }
+  // handle SignUp form submit
+  const handleSignUp = async (e) => {
+    e.preventDefault();
 
-    if(!validateEmail(email)){
-     setError("Please enter a valid email address");
-     return;
-   }
- 
-   if(!password){
-     setError("Please enter a password");
-     return;
-   }
- 
-   setError("");
- 
-   //SignUp API Call
+    if (!fullName) {
+      setError("Please enter a full name");
+      return;
+    }
+
+    if (!validateEmail(email)) {
+      setError("Please enter a valid email address");
+      return;
+    }
+
+    if (!password) {
+      setError("Please enter a password");
+      return;
+    }
+
+    setError("");
+
+    //SignUp API Call
   };
   return (
     <AuthLayout>
-      <div className='lg:w-[70%] min-h-full flex flex-col justify-start pt-45'>
-        <h3 className='text-[30px] font-semibold text-white pt-8'>Create an Account</h3>
-        <p className='text-xs text-yellow-100 mt-[5px] mb-6'>Join us today by entering your details below</p> 
+      <div className="lg:w-[70%] min-h-full flex flex-col justify-start pt-40">
+        <h3 className="text-[20px] font-semibold text-white pt-8">
+          Create an Account
+        </h3>
+        <p className="text-xs text-yellow-100 mt-[5px] mb-6">
+          Join us today by entering your details below
+        </p>
 
         <form onSubmit={handleSignUp}>
-          <ProfilePhotoSelector image={profilePic} setImage={setProfilePic}/>
-          <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
-          
+          <ProfilePhotoSelector image={profilePic} setImage={setProfilePic} />
+          <div className="w-[600px] grid grid-cols-1 md:grid-cols-2 gap-3">
+            <Input
+              value={fullName}
+              onChange={({ target }) => setFullName(target.value)}
+              label="Full Name"
+              placeholder="Ram Das"
+              type="text"
+            />
+
+            <Input
+              value={email}
+              onChange={({ target }) => setEmail(target.value)}
+              label="Email Address"
+              placeholder="ram2001@gmail.com"
+              type="text"
+            />
+
+            <Input
+              value={password}
+              onChange={({ target }) => setPassword(target.value)}
+              label="Password"
+              placeholder="Min 8 characters"
+              type="password"
+            />
+
+            <Input
+              value={adminInviteToken}
+              onChange={({ target }) => setAdminInviteToken(target.value)}
+              label="Admin Invite Token"
+              placeholder="6 digit code"
+              type="text"
+            />
           </div>
+          {error && <p className="text-red-500 text-xs mt-2">{error}</p>}
+
+          <button
+            type="submit"
+            className="w-[290px] text-sm font-medium h-10 text-white bg-lime-300/50 shadow-lg p-[10px] rounded-md my-1 cursor-pointer hover:bg-lime-500/50 transition duration-300 ease-in-out"
+          >
+            SIGN UP
+          </button>
+
+          <p className="text-[13px] text-yellow-200 mt-3">
+            Already have an account?{" "}
+            <Link className="font-medium text-lime-300 underline" to="/login">
+              LogIn
+            </Link>
+          </p>
         </form>
       </div>
     </AuthLayout>
-  )
-}
+  );
+};
 
-export default SignUp
+export default SignUp;
