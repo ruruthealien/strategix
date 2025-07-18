@@ -45,8 +45,8 @@ const ProfilePhotoSelector = ({image, setImage}) => {
             <LuUpload />
             </button>
         </div>
-    ):(
-        <div className="relative"> // relative for the remove button and ui of the delete button
+    ):(//relative for the remove button and ui of the delete button
+        <div className="relative"> 
             <img 
                 src={previewUrl} 
                 alt="profile photo" 
