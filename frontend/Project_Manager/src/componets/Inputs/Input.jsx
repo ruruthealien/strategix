@@ -6,15 +6,15 @@ function Input({value, onChange, label, placeholder, type }) {
 
     const toggleShowPassword = () => setShowPassword(!showPassword);
   return (
-    <div>
-        <label className='text-[15px] text-yellow-100'>{label}</label>
+    <div className='mb-4'>
+        <label className='block text-[15px] text-[#CB7885] mb-2'>{label}</label>
 
         <div className='input-box'>
             <input 
                 type={
                     type =="password" ? (showPassword ? "text" : "password") : type}
                 placeholder={placeholder}
-                className='w-full bg-transparent outline-none'
+                className='w-full bg-transparent outline-none text-white placeholder-gray-400/50'
                 value={value}
                 onChange={(e) => onChange(e)}
             />
@@ -24,13 +24,13 @@ function Input({value, onChange, label, placeholder, type }) {
                     {showPassword ? (
                         <FaRegEye 
                         size ={22}
-                        className='text-primary cursor-pointer'
+                        className='text-[#D4D994] cursor-pointer'
                         onClick={() => toggleShowPassword()}
                         />
                     ) : (
                         <FaRegEyeSlash 
                         size={22}
-                        className='text-yellow-100 cursor-pointer'
+                        className='text-[#CB7885] cursor-pointer'
                         onClick={() => toggleShowPassword()}
                         />
                     )}

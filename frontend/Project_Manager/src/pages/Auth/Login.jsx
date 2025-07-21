@@ -13,8 +13,7 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
 
-
-  const {updateUser} = useContext(UserContext)
+  const { updateUser } = useContext(UserContext);
   const navigate = useNavigate();
 
   // handle login form submit
@@ -35,28 +34,28 @@ const Login = () => {
 
     //Login API Call
     try {
-      const response = await axiosInstance.post(API_PATHS.AUTH.LOGIN,{
+      const response = await axiosInstance.post(API_PATHS.AUTH.LOGIN, {
         email,
         password,
       });
 
-      const {token, role} = response.data;
+      const { token, role } = response.data;
 
-      if(token){
+      if (token) {
         localStorage.setItem("token", token);
-        
-        updateUser(response.data)
+
+        updateUser(response.data);
         // Redirect based on role
-        if (role === "admin"){
+        if (role === "admin") {
           navigate("/admin/dashboard");
-        } else{
+        } else {
           navigate("/user/dashboard");
         }
       }
     } catch (error) {
-      if (error.response && error.response.data.message){
+      if (error.response && error.response.data.message) {
         setError(error.response.data.message);
-      }else{
+      } else {
         setError("Something went wrong. Please try again.");
       }
     }
@@ -65,11 +64,11 @@ const Login = () => {
   return (
     <AuthLayout>
       <div className="lg:w-[70%] min-h-full flex flex-col justify-start pt-45 ">
-        <h3 className="text-[30px] font-semibold text-white pt-8">
+        <h3 className="text-[30px] font-semibold text-[#F4F4E8] pt-8">
           {" "}
           Welcome Back{" "}
         </h3>
-        <p className="text-xs text-yellow-100 mt-[5px] mb-6">
+        <p className="text-xs text-[#DDDDC2] mt-[5px] mb-6">
           {" "}
           Please enter your details to log in.{" "}
         </p>
@@ -94,19 +93,19 @@ const Login = () => {
               required="true"
             />
 
-            {error && <p className="text-red-500 text-xs mt-2">{error}</p>}
+            {error && <p className="text-red-400 text-xs mt-2">{error}</p>}
 
             <button
               type="submit"
-              className="w-[400px] text-sm font-medium h-10 text-white bg-lime-300/50 shadow-lg p-[10px] rounded-md my-1 cursor-pointer hover:bg-lime-500/50 transition duration-300 ease-in-out"
+              className="w-[400px] text-sm font-medium h-10 text-white bg-[#5E6623] shadow-lg p-[10px] rounded-md my-1 cursor-pointer hover:bg-[#78853A] transition duration-300 ease-in-out"
             >
               LOGIN
             </button>
 
-            <p className="text-[13px] text-yellow-200 mt-3">
+            <p className="text-[13px] text-[#C9CC9F] mt-3">
               Don't have an account?{" "}
               <Link
-                className="font-medium text-lime-300 underline"
+                className="font-medium text-[#7C8F37] underline hover:text-[#A9BF59] transition"
                 to="/signup"
               >
                 SignUp

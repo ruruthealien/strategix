@@ -96,10 +96,10 @@ const SignUp = () => {
   return (
     <AuthLayout>
       <div className="lg:w-[70%] min-h-full flex flex-col justify-start pt-40">
-        <h3 className="text-[20px] font-semibold text-white pt-8">
+        <h3 className="text-[20px] font-semibold text-[#fef8e3] pt-6">
           Create an Account
         </h3>
-        <p className="text-xs text-yellow-100 mt-[5px] mb-6">
+        <p className="text-xs text-[#fef8e3]/70 mt-[5px] mb-6">
           Join us today by entering your details below
         </p>
 
@@ -138,18 +138,18 @@ const SignUp = () => {
               type="text"
             />
           </div>
-          {error && <p className="text-red-500 text-xs mt-2">{error}</p>}
+          {error && <p className="text-red-00 text-xs mt-2">{error}</p>}
 
           <button
             type="submit"
-            className="w-[290px] text-sm font-medium h-10 text-white bg-lime-300/50 shadow-lg p-[10px] rounded-md my-1 cursor-pointer hover:bg-lime-500/50 transition duration-300 ease-in-out"
+            className="w-[290px] text-sm font-medium h-10 text-white bg-[#5E6623] shadow-lg p-[10px] rounded-md my-1 cursor-pointer hover:bg-[#78853A] transition duration-300 ease-in-out"
           >
             SIGN UP
           </button>
 
           <p className="text-[13px] text-yellow-200 mt-3">
             Already have an account?{" "}
-            <Link className="font-medium text-lime-300 underline" to="/login">
+            <Link className="font-medium  text-[#7C8F37] underline hover:text-[#A9BF59] transition" to="/login">
               LogIn
             </Link>
           </p>

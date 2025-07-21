@@ -26,7 +26,7 @@ const ProfilePhotoSelector = ({image, setImage}) => {
         inputRef.current.click();
     };
 
-  return <div className='flex justify-center mb-6 text-amber-100'>
+  return <div className='flex justify-center mb-6 text-[#F7F7E8]'>
     <input 
         type="file"
         accept="image/*"
@@ -36,11 +36,11 @@ const ProfilePhotoSelector = ({image, setImage}) => {
     />
     {!image ?(
         // ui of profile icon and arrow icon
-        <div className="w-20 h-20 flex items-center justify-center bg-yellow-100 rounded-full relative cursor-pointer">
-            <LuUser className="text-4xl text-green-600 " />
+        <div className="w-20 h-20 flex items-center justify-center bg-[#a0c7aa] rounded-full relative cursor-pointer">
+            <LuUser className="text-4xl text-[#305252]" />
             <button
                 type='button'
-                className='w-8 h-8 flex items-center justify-center bg-amber-200 text-green-600 rounded-full absolute -bottom-1 -right-1 cursor-pointer'
+                className='w-8 h-8 flex items-center justify-center bg-[#C3EDC0] text-[#305252]  rounded-full absolute -bottom-1 -right-1 cursor-pointer'
                 onClick={onChooseFile}>
             <LuUpload />
             </button>
@@ -53,7 +53,7 @@ const ProfilePhotoSelector = ({image, setImage}) => {
                 className='w-20 h-20 rounded-full object-cover' />
             <button  
                 type='button'
-                className='w-8 h-8 flex items-center justify-center bg-amber-200 text-green-600 rounded-full absolute -bottom-1 -right-1'
+                className='w-8 h-8 flex items-center justify-center bg-[#C3EDC0] text-[#305252] rounded-full absolute -bottom-1 -right-1'
                 onClick={handleRemoveImage}>
                 <LuTrash />
             </button>
