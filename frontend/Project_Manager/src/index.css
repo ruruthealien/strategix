@@ -19,3 +19,7 @@
 .input-box {
     @apply flex justify-between gap-3 text-sm text-white bg-[#232D19] rounded px-5 mt-2 border border-[#5E6623] outline-none w-full h-10 py-2 mb-5;
 }
+
+.card {
+    @apply bg-[#f5dada] shadow-md shadow-gray-300 rounded-2xl p-5 mb-5 border-gray-200/50;
+}

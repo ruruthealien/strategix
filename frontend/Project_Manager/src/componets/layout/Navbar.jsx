@@ -16,7 +16,7 @@ const Navbar = ({activeMenu}) => {
         <h2 className="front-medium	text-[#D4D994] font-bold text-[25px]"> Task Board </h2>
 
         {openSideMenu &&(
-            <div className="fixed top-[61px] -ml-4 bg-amber-100">
+            <div className="fixed top-[61px] left-0 z-40 w-64 h-[calc(100vh-61px)] bg-amber-100 shadow-md transition-all duration-300 ease-in-out md:hidden">
                 <SideMenu activeMenu={activeMenu} />
             </div>
         )}
