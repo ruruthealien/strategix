@@ -21,5 +21,13 @@
 }
 
 .card {
-    @apply bg-[#f5dada] shadow-md shadow-gray-300 rounded-2xl p-5 mb-5 border-gray-200/50;
+    @apply bg-[#fceeee] shadow-md shadow-gray-300 rounded-2xl p-5 mb-5 border-gray-200/50;
+}
+
+.card-btn {
+    @apply flex items-center gap-3 text-[14px] font-semibold bg-[#d4d994] text-[#536623] px-4 py-2 rounded-md border cursor-pointer;
+}
+
+.card-btn:hover {
+    @apply bg-[#c7cc83] text-[#3d4d1a];
 }
