@@ -11,7 +11,7 @@ export const API_PATHS = {
     },
 
     USERS: {
-        GET_ALL_USERS: "/api/users", // Get all users
+        GET_ALL_USERS: "/api/users/", // Get all users
         GET_ALL_USER_BY_ID: (userId) => `/api/users/${userId}`, // Get  user by ID
         CREATE_USER: "/api/users", // Create a new user (Admin only)
         UPDATE_USER: (userId) => `/api/users/${userId}`, // Update user details
