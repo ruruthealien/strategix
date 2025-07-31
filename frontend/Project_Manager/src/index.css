@@ -31,3 +31,11 @@
 .card-btn:hover {
     @apply bg-[#c7cc83] text-[#3d4d1a];
 }
+
+.card-btn-fill {
+    @apply flex items-center gap-3 text-[12px] font-medium bg-[#d4d994] text-[#536623] px-4 py-1.5 rounded-lg border border-green-700 cursor-pointer;
+}
+
+.card-btn-fill:hover {
+    @apply bg-[#c7cc83] text-[#3d4d1a];
+}

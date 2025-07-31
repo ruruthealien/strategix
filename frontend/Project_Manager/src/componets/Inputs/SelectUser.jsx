@@ -3,6 +3,7 @@ import axiosInstance from "../../utils/axiosInstance";
 import { API_PATHS } from "../../utils/apiPaths";
 import { LuUsers } from "react-icons/lu";
 import Model from "../Model";
+import AvatarGroup from "../AvatarGroup";
 
 const SelectUser = ({ selectedUsers, setSelectedUsers }) => {
   const [allUsers, setAllUsers] = useState([]);
@@ -27,14 +28,14 @@ const SelectUser = ({ selectedUsers, setSelectedUsers }) => {
     );
   };
 
-   const handleAssign = () => {
+  const handleAssign = () => {
     setSelectedUsers(tempSelectUsers);
     setIsModelOpen(false);
   };
 
   const selectedUserAvatars = allUsers
-  .filter((user) => Array.isArray(selectedUsers) && selectedUsers.includes(user._id))
-  .map((user) => user.profileImage);
+    .filter((user) => Array.isArray(selectedUsers) && selectedUsers.includes(user._id))
+    .map((user) => user.profileImageUrl);
 
   useEffect(() => {
     getAllUsers();
@@ -45,6 +46,7 @@ const SelectUser = ({ selectedUsers, setSelectedUsers }) => {
     return () => {};
   }, [selectedUsers]);
 
+  // this is the model component
   return (
     <div className="space-y-2 mt-2">
       {selectedUserAvatars.length === 0 && (
@@ -52,23 +54,30 @@ const SelectUser = ({ selectedUsers, setSelectedUsers }) => {
           <LuUsers className="text-sm" /> Add Members
         </button>
       )}
+      {/* here the avatar is displayed after selecting a user */}
+      {selectedUserAvatars.length > 0 && (
+        <div className="cursor-pointer" onClick={() => setIsModelOpen(true)}>
+          <AvatarGroup avatars={selectedUserAvatars} maxVisible={3} />
+        </div>
+      )}
 
       <Model
         isOpen={isModelOpen}
         onClose={() => setIsModelOpen(false)}
-        title="Select Users">
-        
+        title="Select Users"
+      >
         <div className="space-y-4 h-[60vh] overflow-auto">
           {allUsers.map((user) => (
-            <div 
-              key={user._id}  
-              className="flex items-center gap-4 p-3 border-b border-gray-200">
-              
-              <img 
-                src={user.profileImageUrl} 
-                alt={user.name} 
-                className="w-10 h-10 rounded-full" />
-              
+            <div
+              key={user._id}
+              className="flex items-center gap-4 p-3 border-b border-gray-200"
+            >
+              <img
+                src={user.profileImageUrl}
+                alt={user.name}
+                className="w-10 h-10 rounded-full"
+              />
+
               <div className="flex-1">
                 <p className="font-medium text-gray-800 ">{user.name}</p>
                 <p className="text-[13px] text-gray-600 ">{user.email}</p>
@@ -76,11 +85,25 @@ const SelectUser = ({ selectedUsers, setSelectedUsers }) => {
 
               <input
                 type="checkbox"
-                checked= {tempSelectUsers.includes(user._id)}
+                checked={tempSelectUsers.includes(user._id)}
                 onChange={() => toggleUserSelection(user._id)}
-                className="w-4 h-4 text-primary bg-gray-100 border-gray-300 rounded-sm outline-none"/>
+                className="w-4 h-4 text-primary bg-gray-100 border-gray-300 rounded-sm outline-none"
+              />
             </div>
           ))}
+        </div>
+
+        {/* the button to add selected users 'cancel' and 'add' */}
+        <div className="flex justify-end gap-4 pt-4">
+          <button className="card-btn-fill" onClick={handleAssign}>
+            ADD
+          </button>
+          <button
+            className="card-btn-fill"
+            onClick={() => setIsModelOpen(false)}
+          >
+            CANCEL
+          </button>
         </div>
       </Model>
     </div>
