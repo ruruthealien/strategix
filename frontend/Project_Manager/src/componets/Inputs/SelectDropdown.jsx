@@ -12,7 +12,7 @@ const SelectDropdown = ({options, value, onChange, placeholder}) => {
         {/* Dropdown button */}
         <button
             onClick={() => setIsOpen(!isOpen)}
-           className='w-full text-sm text-black bg-[#fceeee] border border-gray-400 px-3 py-2 rounded-md mt-1 flex justify-between items-center focus:outline-none focus:ring-2 focus:ring-red-900'>
+           className='w-full text-sm text-black bg-[#fceeee] border border-gray-400 px-3 py-2 rounded-md mt-1 flex justify-between items-center focus:outline-none focus:ring-1 focus:ring-red-900'>
                  {options.find((opt) => opt.value === value)?.label || placeholder}
                 <span className='ml-2'>
                    <LuChevronsDown className={`transition-transform duration-300 ${isOpen ? 'rotate-180' : ''}`} />

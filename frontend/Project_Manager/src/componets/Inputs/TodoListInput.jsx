@@ -23,7 +23,7 @@ const TodoListInput = ({ todoList, setTodoList }) => {
       {todoList.map((item, index) => (
         <div 
           key={index} 
-          className="flex justify-between bg-[#fceeee] border border-gray-400 px-3 py-2 rounded-md mb-3 mt-2">
+          className="flex justify-between bg-[#fceeee] border border-gray-400 px-3 py-2 rounded-md mb-3 mt-2 ">
           <p className="text-sm text-black">
             <span className="text-xs  text-gray-400 font-semibold mr-2">
               {index < 9 ? `0${index + 1}` : index + 1}
@@ -37,12 +37,12 @@ const TodoListInput = ({ todoList, setTodoList }) => {
               handleDeleteOption(index);
             }}
           >
-            <HiOutlineTrash className="text-lg text-green-900" />
+            <HiOutlineTrash className="text-lg text-red-900" />
           </button>
         </div>
       ))}
 
-      <div className="flex items-center gap-5 mt-4">
+      <div className="flex items-center gap-5 mt-4 ">
         <input
           type="text"
           placeholder="Enter Task"

@@ -10,6 +10,7 @@ import { LuTrash2 } from "react-icons/lu";
 import SelectDropdown from "../../componets/Inputs/SelectDropdown";
 import SelectUser from "../../componets/Inputs/SelectUser";
 import TodoListInput from "../../componets/Inputs/TodoListInput";
+import AddAttachmentInput from "../../componets/Inputs/AddAttachmentInput";
 
 const CreateTask = () => {
   const location = useLocation();
@@ -59,7 +60,43 @@ const CreateTask = () => {
   // Update task
   const updateTask = async () => {};
 
-  const handleSubmit = async () => {};
+  const handleSubmit = async () => {
+    setError(null);
+
+    // input validation
+    if(!taskData.title.trim())
+    {
+      setError("Please enter a title");
+      return;
+    }
+    if(!taskData.description.trim())
+    {
+      setError("Please enter a description");
+      return;
+    }
+    if(!taskData.dueDate)
+    {
+      setError("Please enter a due date");
+      return;
+    }
+    if(taskData.assignedTo?.length === 0)
+    {
+      setError("Please select at least one task assigned to any member");
+      return;
+    }
+    if(taskData.todoCheckList?.length === 0)
+    {
+      setError("Please select at least one task to do");
+      return;
+    }
+    if(taskId)
+    {
+      updateTask();
+    }
+
+    createTask();
+
+  };
 
   // get task info by id
   const getTaskDetailsbyId = async () => {};
@@ -71,7 +108,7 @@ const CreateTask = () => {
     <DashboardLayout activeMenu="Create Task">
       <div className="mt-4">
         <div className="grid grid-cols-1 md:grid-cols-4 mt-4">
-          <div className="bg-[#fceeee] p-6 rounded-xl shadow-md border border-gray-300 col-span-3 w-full space-y-7">
+          <div className="bg-[#fceeee] p-6 rounded-xl shadow-md border border-gray-300 col-span-3 w-full space-y-5">
             <div className="flex items-center justify-between mb-3">
               <h2 className="text-xl md:text-xl font-medium text-[#893941]">
                 {" "}
@@ -79,7 +116,7 @@ const CreateTask = () => {
               </h2>
               {taskId && (
                 <button
-                  className="flex items-center gap-1.5 text-[13px] font-medium text-[#893941] bg-rose-50 rounded border border-rose-200 px-2 py-1 hover:bg-rose-100 transition-all duration-300 cursor pointer"
+                  className="flex items-center gap-1.5 text-[13px] font-medium text-[#893941] bg-rose-50 rounded border border-red-900 px-2 py-1 hover:bg-rose-100 transition-all duration-300 cursor pointer"
                   onClick={() => {
                     setOpenDeleteAlert(true);
                   }}
@@ -89,7 +126,7 @@ const CreateTask = () => {
               )}
             </div>
 
-            {/* form  */}
+            {/* form  title */}
             <div className="mt-4">
               <label className="text-[15px] font-medium text-[#893941]">
                 Task Title
@@ -97,7 +134,7 @@ const CreateTask = () => {
 
               <input
                 placeholder="Create App UI"
-                className="w-full mt-1 px-3 py-2 border border-gray-400 rounded-md focus:outline-none focus:ring-2 focus:ring-red-900"
+                className="w-full mt-1 px-3 py-2 border border-gray-400 rounded-md focus:outline-none focus:ring-1 focus:ring-red-900"
                 value={taskData.title}
                 onChange={({ target }) =>
                   handleValueChange("title", target.value)
@@ -113,7 +150,7 @@ const CreateTask = () => {
               </label>
               <textarea
                 placeholder="Describe task"
-                className="w-full mt-1 px-3 py-2 border border-gray-400 rounded-md focus:outline-none focus:ring-2 focus:ring-red-900"
+                className="w-full mt-1 px-3 py-2 border border-gray-400 rounded-md focus:outline-none focus:ring-1 focus:ring-red-900"
                 rows={4}
                 value={taskData.description}
                 onChange={({ target }) =>
@@ -124,7 +161,6 @@ const CreateTask = () => {
 
             {/*  the row consists of : */}
             <div className="grid grid-cols-12 gap-4 mt-2">
-
               {/* Priority */}
               <div className="col-span-12 md:col-span-4">
                 <label className="text-[15px] font-medium text-[#893941] ">
@@ -146,7 +182,7 @@ const CreateTask = () => {
                 <input
                   type="date"
                   placeholder="dd-mm-yyyy"
-                  className="w-full px-3 py-2 mt-1 border border-gray-400 rounded-md text-sm outline-none focus:ring-2 focus:ring-red-900"
+                  className="w-full px-3 py-2 mt-1 border border-gray-400 rounded-md text-sm outline-none focus:ring-1 focus:ring-red-900"
                   value={taskData.dueDate || ""}
                   onChange={({ target }) =>
                     handleValueChange("dueDate", target.value)
@@ -167,17 +203,46 @@ const CreateTask = () => {
                 />
               </div>
             </div>
-            
+
             {/* Todo tasks */}
             <div className="mt-3">
-                 <label className="text-[15px] font-medium text-[#893941]"> TODO Checklist </label> 
-                 <TodoListInput
-                  todoList={taskData?.todoCheckList}
-                  setTodoList={(value) => 
-                  {handleValueChange("todoCheckList", value)}}/>
+              <label className="text-[15px] font-medium text-[#893941]">
+                {" "}
+                Task Tracker{" "}
+              </label>
+              <TodoListInput
+                todoList={taskData?.todoCheckList}
+                setTodoList={(value) => {
+                  handleValueChange("todoCheckList", value);
+                }}
+              />
             </div>
 
+            {/* Add Attachment */}
+            <div className="mt-3">
+              <label className="text-[15px] font-medium text-[#893941]">
+                {" "}
+                Add Attachment
+              </label>
 
+              <AddAttachmentInput
+                attachments={taskData?.attachments}
+                setAttachments={(value) =>
+                  handleValueChange("attachments", value)
+                }
+              />
+            </div>
+
+            {error && (
+              <p className="text-xs font-medium text-red-800 mt-5">{error}</p>
+            )}
+
+            <div className="flex justify-end mt-7">
+              <button
+                className="add-btn"
+                onClick={handleSubmit}
+                disabled={loading}>{taskId ? "UPDATE TASK" : "CREATE TASK"}</button>
+            </div>
           </div>
         </div>
       </div>
