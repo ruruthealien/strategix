@@ -13,7 +13,7 @@ const Navbar = ({activeMenu}) => {
         }}>
             {openSideMenu ? (<HiOutlineX className="text-2xl"/>) : (<HiOutlineMenu className="text-2xl"/>)}
         </button>
-        <h2 className="front-medium	text-[#D4D994] font-bold text-[25px]"> Task Board </h2>
+        <h2 className="front-medium	text-[#D4D994] font-bold text-[25px]"> S t r a t e g i z </h2>
 
         {openSideMenu &&(
             <div className="fixed top-[61px] left-0 z-40 w-64 h-[calc(100vh-61px)] bg-amber-100 shadow-md transition-all duration-300 ease-in-out md:hidden">

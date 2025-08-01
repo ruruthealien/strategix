@@ -33,9 +33,9 @@
 }
 
 .card-btn-fill {
-    @apply flex items-center gap-3 text-[12px] font-medium bg-[#d4d994] text-[#536623] px-4 py-1.5 rounded-lg border border-green-700 cursor-pointer;
+    @apply flex items-center gap-3 text-[12px] font-medium bg-[#b2c01d] text-[#3d4d1a] px-4 py-1.5 rounded-lg border-2 border-black cursor-pointer;
 }
 
 .card-btn-fill:hover {
-    @apply bg-[#c7cc83] text-[#3d4d1a];
+    @apply bg-[#7d882a] text-[#d4d994];
 }

@@ -70,7 +70,7 @@ const SelectUser = ({ selectedUsers, setSelectedUsers }) => {
           {allUsers.map((user) => (
             <div
               key={user._id}
-              className="flex items-center gap-4 p-3 border-b border-gray-200"
+              className="flex items-center gap-4 p-3 border-b border-green-500/50"
             >
               <img
                 src={user.profileImageUrl}
@@ -79,15 +79,15 @@ const SelectUser = ({ selectedUsers, setSelectedUsers }) => {
               />
 
               <div className="flex-1">
-                <p className="font-medium text-gray-800 ">{user.name}</p>
-                <p className="text-[13px] text-gray-600 ">{user.email}</p>
+                <p className="font-medium text-green-900 ">{user.name}</p>
+                <p className="text-[13px] text-green-900 ">{user.email}</p>
               </div>
 
               <input
                 type="checkbox"
                 checked={tempSelectUsers.includes(user._id)}
                 onChange={() => toggleUserSelection(user._id)}
-                className="w-4 h-4 text-primary bg-gray-100 border-gray-300 rounded-sm outline-none"
+                className="w-4 h-4 text-green-900 bg-[#b2c01d] border-black rounded-sm outline-none"
               />
             </div>
           ))}
@@ -100,8 +100,7 @@ const SelectUser = ({ selectedUsers, setSelectedUsers }) => {
           </button>
           <button
             className="card-btn-fill"
-            onClick={() => setIsModelOpen(false)}
-          >
+            onClick={() => setIsModelOpen(false)}>
             CANCEL
           </button>
         </div>

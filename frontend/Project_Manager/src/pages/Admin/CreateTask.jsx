@@ -9,6 +9,7 @@ import moment from "moment";
 import { LuTrash2 } from "react-icons/lu";
 import SelectDropdown from "../../componets/Inputs/SelectDropdown";
 import SelectUser from "../../componets/Inputs/SelectUser";
+import TodoListInput from "../../componets/Inputs/TodoListInput";
 
 const CreateTask = () => {
   const location = useLocation();
@@ -68,10 +69,10 @@ const CreateTask = () => {
 
   return (
     <DashboardLayout activeMenu="Create Task">
-      <div className="mt-5">
+      <div className="mt-4">
         <div className="grid grid-cols-1 md:grid-cols-4 mt-4">
-          <div className="bg-white p-6 rounded-xl shadow-md border border-gray-200 col-span-3 w-full space-y-6">
-            <div className="flex items-center justify-between mb-4">
+          <div className="bg-[#fceeee] p-6 rounded-xl shadow-md border border-gray-300 col-span-3 w-full space-y-7">
+            <div className="flex items-center justify-between mb-3">
               <h2 className="text-xl md:text-xl font-medium text-[#893941]">
                 {" "}
                 {taskId ? "Update Task" : "Create Task"}{" "}
@@ -87,15 +88,16 @@ const CreateTask = () => {
                 </button>
               )}
             </div>
+
             {/* form  */}
             <div className="mt-4">
-              <label className="text-xs font-medium text-green-800">
+              <label className="text-[15px] font-medium text-[#893941]">
                 Task Title
               </label>
 
               <input
                 placeholder="Create App UI"
-                className="w-full mt-1 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-400"
+                className="w-full mt-1 px-3 py-2 border border-gray-400 rounded-md focus:outline-none focus:ring-2 focus:ring-red-900"
                 value={taskData.title}
                 onChange={({ target }) =>
                   handleValueChange("title", target.value)
@@ -103,14 +105,15 @@ const CreateTask = () => {
               />
             </div>
 
+            {/* Description section */}
             <div className="mt-3">
-              <label className="text-xs font-medium text-green-800">
+              <label className="text-[15px] font-medium text-[#893941]">
                 {" "}
                 Description
               </label>
               <textarea
                 placeholder="Describe task"
-                className="w-full mt-1 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-400"
+                className="w-full mt-1 px-3 py-2 border border-gray-400 rounded-md focus:outline-none focus:ring-2 focus:ring-red-900"
                 rows={4}
                 value={taskData.description}
                 onChange={({ target }) =>
@@ -119,10 +122,12 @@ const CreateTask = () => {
               />
             </div>
 
+            {/*  the row consists of : */}
             <div className="grid grid-cols-12 gap-4 mt-2">
+
               {/* Priority */}
               <div className="col-span-12 md:col-span-4">
-                <label className="text-xs font-medium text-green-800">
+                <label className="text-[15px] font-medium text-[#893941] ">
                   Priority
                 </label>
                 <SelectDropdown
@@ -135,13 +140,13 @@ const CreateTask = () => {
 
               {/* Due Date */}
               <div className="col-span-12 md:col-span-4">
-                <label className="text-xs font-medium text-green-800">
+                <label className="text-[15px] font-medium text-[#893941]">
                   Due Date
                 </label>
                 <input
                   type="date"
                   placeholder="dd-mm-yyyy"
-                  className="w-full px-3 py-2 mt-1 border border-gray-300 rounded-md text-sm outline-none focus:ring focus:ring-green-200"
+                  className="w-full px-3 py-2 mt-1 border border-gray-400 rounded-md text-sm outline-none focus:ring-2 focus:ring-red-900"
                   value={taskData.dueDate || ""}
                   onChange={({ target }) =>
                     handleValueChange("dueDate", target.value)
@@ -151,7 +156,7 @@ const CreateTask = () => {
 
               {/* Assign To*/}
               <div className="col-span-12 md:col-span-4">
-                <label className="text-xs font-medium text-green-800">
+                <label className="text-[15px] font-medium text-[#893941]">
                   Assign To
                 </label>
                 <SelectUser
@@ -162,6 +167,17 @@ const CreateTask = () => {
                 />
               </div>
             </div>
+            
+            {/* Todo tasks */}
+            <div className="mt-3">
+                 <label className="text-[15px] font-medium text-[#893941]"> TODO Checklist </label> 
+                 <TodoListInput
+                  todoList={taskData?.todoCheckList}
+                  setTodoList={(value) => 
+                  {handleValueChange("todoCheckList", value)}}/>
+            </div>
+
+
           </div>
         </div>
       </div>
