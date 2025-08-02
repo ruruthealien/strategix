@@ -47,7 +47,7 @@ const CreateTask = () => {
       title: "",
       description: "",
       priority: "low",
-      dueDate: "", // instead of mull
+      dueDate: "", // instead of null
       assignedTo: [],
       todoCheckList: [],
       attachments: [],
@@ -55,7 +55,35 @@ const CreateTask = () => {
   };
 
   // create task
-  const createTask = async () => {};
+  const createTask = async () => {
+    setLoading(true);
+
+    try {
+      const todoList = taskData.todoCheckList?.map((item) => ({
+        text: item,
+        complete: false,
+      }));
+
+      // assignedTo is already an array of user IDs (strings)
+      const assignedToIds = taskData.assignedTo;
+
+      const response = await axiosInstance.post(API_PATHS.TASKS.CREATE_TASK, {
+        ...taskData,
+        priority: taskData.priority.toLowerCase(),
+        dueDate: new Date(taskData.dueDate).toISOString(),
+        todoCheckList: todoList,
+        assignedTo: assignedToIds,
+      });
+
+      toast.success("Task created successfully");
+      clearData();
+    } catch (error) {
+      // Properly set error message
+      setError(error.response?.data?.message || "Error creating task");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   // Update task
   const updateTask = async () => {};
@@ -64,38 +92,31 @@ const CreateTask = () => {
     setError(null);
 
     // input validation
-    if(!taskData.title.trim())
-    {
+    if (!taskData.title.trim()) {
       setError("Please enter a title");
       return;
     }
-    if(!taskData.description.trim())
-    {
+    if (!taskData.description.trim()) {
       setError("Please enter a description");
       return;
     }
-    if(!taskData.dueDate)
-    {
+    if (!taskData.dueDate) {
       setError("Please enter a due date");
       return;
     }
-    if(taskData.assignedTo?.length === 0)
-    {
+    if (taskData.assignedTo?.length === 0) {
       setError("Please select at least one task assigned to any member");
       return;
     }
-    if(taskData.todoCheckList?.length === 0)
-    {
+    if (taskData.todoCheckList?.length === 0) {
       setError("Please select at least one task to do");
       return;
     }
-    if(taskId)
-    {
+    if (taskId) {
       updateTask();
+    } else {
+      createTask();
     }
-
-    createTask();
-
   };
 
   // get task info by id
@@ -111,8 +132,7 @@ const CreateTask = () => {
           <div className="bg-[#fceeee] p-6 rounded-xl shadow-md border border-gray-300 col-span-3 w-full space-y-5">
             <div className="flex items-center justify-between mb-3">
               <h2 className="text-xl md:text-xl font-medium text-[#893941]">
-                {" "}
-                {taskId ? "Update Task" : "Create Task"}{" "}
+                {taskId ? "Update Task" : "Create Task"}
               </h2>
               {taskId && (
                 <button
@@ -145,7 +165,6 @@ const CreateTask = () => {
             {/* Description section */}
             <div className="mt-3">
               <label className="text-[15px] font-medium text-[#893941]">
-                {" "}
                 Description
               </label>
               <textarea
@@ -207,8 +226,7 @@ const CreateTask = () => {
             {/* Todo tasks */}
             <div className="mt-3">
               <label className="text-[15px] font-medium text-[#893941]">
-                {" "}
-                Task Tracker{" "}
+                Task Tracker
               </label>
               <TodoListInput
                 todoList={taskData?.todoCheckList}
@@ -221,7 +239,6 @@ const CreateTask = () => {
             {/* Add Attachment */}
             <div className="mt-3">
               <label className="text-[15px] font-medium text-[#893941]">
-                {" "}
                 Add Attachment
               </label>
 
@@ -241,7 +258,10 @@ const CreateTask = () => {
               <button
                 className="add-btn"
                 onClick={handleSubmit}
-                disabled={loading}>{taskId ? "UPDATE TASK" : "CREATE TASK"}</button>
+                disabled={loading}
+              >
+                {taskId ? "UPDATE TASK" : "CREATE TASK"}
+              </button>
             </div>
           </div>
         </div>
