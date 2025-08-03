@@ -29,7 +29,7 @@
 }
 
 .card-btn:hover {
-    @apply bg-[#c7cc83] text-[#3d4d1a];
+    @apply bg-[#d2d96d] text-[#3d4d1a];
 }
 
 .card-btn-fill {
