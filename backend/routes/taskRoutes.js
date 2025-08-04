@@ -15,5 +15,10 @@ router.delete("/:id", protect, adminOnly, deleteTask); // Delete a task (admin o
 router.put("/:id/status", protect, updateTaskStatus); // Update task status
 router.put("/:id/todo", protect, updateTaskChecklist); // Update task checklist
 
+const { getAllTasksWithTodo } = require('../controllers/taskController');
+
+// Temporary debug route to get all tasks with todoChecklist
+router.get('/all-tasks-with-todo', protect, adminOnly, getAllTasksWithTodo);
+
 // Export the router
 module.exports = router;

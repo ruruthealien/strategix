@@ -7,7 +7,7 @@ const TodoListInput = ({ todoList, setTodoList }) => {
   // Function to handle adding an option
   const handleAddOption = () => {
     if (option.trim()) {
-      setTodoList([...todoList, option.trim()]);
+      setTodoList([...todoList, { text: option.trim(), completed: false }]);
       setOption("");
     }
   };
@@ -21,14 +21,15 @@ const TodoListInput = ({ todoList, setTodoList }) => {
   return (
     <div>
       {todoList.map((item, index) => (
-        <div 
-          key={index} 
-          className="flex justify-between bg-[#fceeee] border border-gray-400 px-3 py-2 rounded-md mb-3 mt-2 ">
+        <div
+          key={index}
+          className="flex justify-between bg-[#fceeee] border border-gray-400 px-3 py-2 rounded-md mb-3 mt-2 "
+        >
           <p className="text-sm text-black">
             <span className="text-xs  text-gray-400 font-semibold mr-2">
               {index < 9 ? `0${index + 1}` : index + 1}
             </span>
-            {item}
+            {item.text}
           </p>
 
           <button

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import DashboardLayout from "../../componets/layout/DashboardLayout";
 import { PRIORITY_DATA } from "../../utils/data";
 import axiosInstance from "../../utils/axiosInstance";
@@ -120,11 +120,45 @@ const CreateTask = () => {
   };
 
   // get task info by id
-  const getTaskDetailsbyId = async () => {};
+  const getTaskDetailsbyId = async () => {
+    try {
+      const response = await axiosInstance.get(
+        API_PATHS.TASKS.GET_TASK_BY_ID(taskId)
+      );
+
+      if (response.data) {
+        const taskInfo = response.data;
+        setCurrentTask(taskInfo);
+
+        setTaskData((prevState) => ({
+          ...prevState,
+          title: taskInfo.title,
+          description: taskInfo.description,
+          priority: taskInfo.priority,
+          dueDate: taskInfo.dueDate
+            ? moment(taskInfo.dueDate).format("YYYY-MM-DD")
+            : null,
+          assignedTo: taskInfo?.assignedTo?.map((member) => member.id || []),
+          todoChecklist: taskInfo?.todoChecklist || [],
+          attachments: taskInfo?.attachments || [],
+        }));
+      }
+    } catch (error) {
+      console.error("Error fetching users", error);
+    }
+  };
 
   // delete task
   const deleteTask = async () => {};
 
+  useEffect(() => {
+    if (taskId) {
+      getTaskDetailsbyId(taskId);
+    }
+    return () => {};
+  }, [taskId]);
+
+  // ui for the create task form
   return (
     <DashboardLayout activeMenu="Create Task">
       <div className="mt-4">

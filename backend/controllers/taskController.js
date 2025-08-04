@@ -399,6 +399,15 @@ const getUserDashboardData = async(req, res) => {
     }
 };
 
+const getAllTasksWithTodo = async(req, res) => {
+    try {
+        const tasks = await Task.find().select('title todoChecklist').lean();
+        res.status(200).json({ tasks });
+    } catch (error) {
+        res.status(500).json({ message: "Server Error", error: error.message });
+    }
+};
+
 module.exports = {
     getTasks,
     getTaskById,
@@ -408,5 +417,6 @@ module.exports = {
     updateTaskStatus,
     updateTaskChecklist,
     getDashboardData,
-    getUserDashboardData
+    getUserDashboardData,
+    getAllTasksWithTodo
 };
