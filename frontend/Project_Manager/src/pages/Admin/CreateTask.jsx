@@ -23,7 +23,7 @@ const CreateTask = () => {
     priority: "low",
     dueDate: null,
     assignedTo: [],
-    todoCheckList: [],
+    todoChecklist: [],
     attachments: [],
   });
 
@@ -49,7 +49,7 @@ const CreateTask = () => {
       priority: "low",
       dueDate: "", // instead of null
       assignedTo: [],
-      todoCheckList: [],
+      todoChecklist: [],
       attachments: [],
     });
   };
@@ -59,7 +59,7 @@ const CreateTask = () => {
     setLoading(true);
 
     try {
-      const todoList = taskData.todoCheckList?.map((item) => ({
+      const todoList = taskData.todoChecklist?.map((item) => ({
         text: item,
         complete: false,
       }));
@@ -71,7 +71,7 @@ const CreateTask = () => {
         ...taskData,
         priority: taskData.priority.toLowerCase(),
         dueDate: new Date(taskData.dueDate).toISOString(),
-        todoCheckList: todoList,
+        todoChecklist: todoList,
         assignedTo: assignedToIds,
       });
 
@@ -108,7 +108,7 @@ const CreateTask = () => {
       setError("Please select at least one task assigned to any member");
       return;
     }
-    if (taskData.todoCheckList?.length === 0) {
+    if (taskData.todoChecklist?.length === 0) {
       setError("Please select at least one task to do");
       return;
     }
@@ -136,7 +136,7 @@ const CreateTask = () => {
               </h2>
               {taskId && (
                 <button
-                  className="flex items-center gap-1.5 text-[13px] font-medium text-[#893941] bg-rose-50 rounded border border-red-900 px-2 py-1 hover:bg-rose-100 transition-all duration-300 cursor pointer"
+                  className="flex items-center gap-1.5 text-[13px] font-medium text-[#e1c4c7] bg-rose-900 rounded border border-gray-700 px-2 py-1 hover:text-[#ebc6c6] hover:bg-rose-800 transition-all duration-300 cursor pointer"
                   onClick={() => {
                     setOpenDeleteAlert(true);
                   }}
@@ -226,12 +226,12 @@ const CreateTask = () => {
             {/* Todo tasks */}
             <div className="mt-3">
               <label className="text-[15px] font-medium text-[#893941]">
-                Task Tracker
+                Todo Checklist
               </label>
               <TodoListInput
-                todoList={taskData?.todoCheckList}
+                todoList={taskData?.todoChecklist}
                 setTodoList={(value) => {
-                  handleValueChange("todoCheckList", value);
+                  handleValueChange("todoChecklist", value);
                 }}
               />
             </div>

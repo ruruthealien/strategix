@@ -5,6 +5,7 @@ import axiosInstance from "../../utils/axiosInstance";
 import { API_PATHS } from "../../utils/apiPaths";
 import { LuFileSpreadsheet } from "react-icons/lu";
 import TaskStatusTabs from "../../componets/TaskStatusTabs";
+import TaskCard from "../../componets/Cards/TaskCard";
 
 const ManageTask = () => {
   const [allTask, setAllTask] = useState([]);
@@ -17,11 +18,22 @@ const ManageTask = () => {
   // api call to get all tasks
   const getAllTasks = async () => {
     try {
+      // Map tab labels to backend status values
+      const statusMap = {
+        All: "",
+        Pending: "pending",
+        "In Progress": "in-progress",
+        complete: "complete",
+      };
+      const statusParam = statusMap[filterStatus] || "";
+
       const response = await axiosInstance.get(API_PATHS.TASKS.GET_ALL_TASKS, {
         params: {
-          status: filterStatus === "All" ? "" : filterStatus,
+          status: statusParam,
         },
       });
+
+      console.log("API response tasks:", response.data?.tasks); // Debug log to check todoChecklist data
 
       setAllTask(
         response.data?.tasks && response.data.tasks.length > 0
@@ -36,7 +48,7 @@ const ManageTask = () => {
         { label: "All", count: statusSummary.all || 0 },
         { label: "Pending", count: statusSummary.pendingTasks || 0 },
         { label: "In Progress", count: statusSummary.inProgressTasks || 0 },
-        { label: "Completed", count: statusSummary.completedTasks || 0 },
+        { label: "complete", count: statusSummary.completedTasks || 0 },
       ];
 
       setTabs(statusArray);
@@ -50,32 +62,7 @@ const ManageTask = () => {
   };
 
   // download task report
-  const handleDownloadReport = async () => {
-    try {
-      if (!allTask || allTask.length === 0) {
-        alert("No tasks available to download report.");
-        return;
-      }
-      // Prepare CSV content
-      const headers = [
-        "Title",
-        "Description",
-        "Status",
-        "Assigned To",
-        "Due Date",
-      ];
-      const rows = allTask.map((task) => [
-        task.title,
-        task.description,
-        task.status,
-        task.assignedTo?.name || "Unassigned",
-        task.dueDate ? new Date(task.dueDate).toLocaleDateString() : "N/A",
-      ]);
-    } catch (error) {
-      console.error("Error downloading report:", error);
-      alert("Failed to download report.");
-    }
-  };
+  const handleDownloadReport = async () => {};
 
   // filter tasks by status
   useEffect(() => {
@@ -117,6 +104,27 @@ const ManageTask = () => {
             </button>
           </div>
         </div>
+      </div>
+
+      {/* display task card in a grid */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
+        {allTask?.map((item, index) => (
+          <TaskCard
+            key={item._id}
+            title={item.title}
+            description={item.description}
+            priority={item.priority}
+            status={item.status}
+            progress={item.progress}
+            createdAt={item.createdAt}
+            dueDate={item.dueDate}
+            assignedTo={item.assignedTo?.map((user) => user.profileImageUrl)}
+            attachmentCount={item.attachments?.length || 0}
+            completedTodoCount={item.completedTodoCount || 0}
+            todoChecklist={item.todoChecklist || []}
+            onClick={() => handleClick(item)}
+          />
+        ))}
       </div>
     </DashboardLayout>
   );
