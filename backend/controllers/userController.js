@@ -14,9 +14,9 @@ const getUsers = async(req, res) => {
 
         // add task count to each user
         const usersWithTaskCounts = await Promise.all(users.map(async(user) => {
-            const pendingTasks = await Task.countDocuments({ assignedTo: user._id, status: 'Pending' });
-            const inProgressTasks = await Task.countDocuments({ assignedTo: user._id, status: 'In Progress' });
-            const completedTasks = await Task.countDocuments({ assignedTo: user._id, status: 'Completed' });
+            const pendingTasks = await Task.countDocuments({ assignedTo: { $in: [user._id] }, status: 'pending' });
+            const inProgressTasks = await Task.countDocuments({ assignedTo: { $in: [user._id] }, status: 'in-progress' });
+            const completedTasks = await Task.countDocuments({ assignedTo: { $in: [user._id] }, status: 'complete' });
 
             return {
                 ...user._doc, //  include all existing user data

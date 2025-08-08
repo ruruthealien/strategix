@@ -392,6 +392,7 @@ const CreateTask = () => {
               />
             </div>
 
+            {/* error handling*/}
             {error && (
               <p className="text-xs font-medium text-red-800 mt-5">{error}</p>
             )}
@@ -409,16 +410,19 @@ const CreateTask = () => {
         </div>
       </div>
 
+
+      {/* making the card for showcasing the finally delete drop down*/}
       <Model
         isOpen={openDeleteAlert}
         onClose={() => setOpenDeleteAlert(false)}
-        title="Delete Task"
-      >
+        title="Delete Task">
+
         <DeleteAlert
-          context="Are you sure you want to delte this task?"
+          context="Are you sure you want to delete this task?"
           onDelete={() => deleteTask()}
         />
       </Model>
+      
     </DashboardLayout>
   );
 };

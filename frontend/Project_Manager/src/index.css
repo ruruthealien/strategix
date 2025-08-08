@@ -43,3 +43,7 @@
 .add-btn {
     @apply w-full flex items-center justify-center gap-1.5 text-[16.5px] font-semibold bg-[#893941] whitespace-nowrap text-[#d4d994] border border-red-950 rounded-lg px-4 py-2 cursor-pointer;
 }
+
+.user-card {
+    @apply bg-[#fceeee] shadow-md shadow-gray-300 rounded-2xl p-5 mb-5 border-gray-200/50;
+}

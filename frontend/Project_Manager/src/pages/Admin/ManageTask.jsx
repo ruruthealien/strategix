@@ -80,7 +80,7 @@ const ManageTask = () => {
               My Tasks{" "}
             </h2>
             <button
-              className="flex item-center gap-3 text-[15px] font-bold md:text[13px] bg-[#d4d994] text-[#536623] px-2 md:px-3 py-2 rounded border hover:bg-[#d2d96d] hover:text-[#3d4d1a] cursor-pointer lg:hidden"
+              className="md:flex item-center gap-3 text-[15px] font-bold md:text[13px] bg-[#d4d994] text-[#536623] px-2 md:px-3 py-2 rounded border hover:bg-[#d2d96d] hover:text-[#3d4d1a] cursor-pointer lg:hidden"
               onClick={handleDownloadReport}
             >
               <LuFileSpreadsheet className="text-lg" />
@@ -96,7 +96,7 @@ const ManageTask = () => {
             />
 
             <button
-              className="md:flex hidden item-center gap-3 text-[15px] font-bold md:text[13px] bg-[#d4d994] text-[#536623] px-2 md:px-3 py-2 rounded border hover:bg-[#d2d96d] hover:text-[#3d4d1a] cursor-pointer"
+              className="flex md:hidden item-center gap-3 text-[15px] font-bold md:text[13px] bg-[#d4d994] text-[#536623] px-2 md:px-3 py-2 rounded border hover:bg-[#d2d96d] hover:text-[#3d4d1a] cursor-pointer"
               onClick={handleDownloadReport}
             >
               <LuFileSpreadsheet className="text-lg" />
