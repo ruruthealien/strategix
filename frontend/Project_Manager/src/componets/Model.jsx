@@ -4,10 +4,10 @@ const Model = ({children, isOpen, onClose, title}) => {
  if(!isOpen) return;
     
  
- return <div className='fixed top-0 right-0 left-0 z-50 flex justify-center items-center w-full h-full  max-h-full overflow-y-auto overflow-x-hidden bg-[#cb7885] bg-opacity-75'>
+ return <div className='fixed top-0 right-0 left-0 z-50 flex justify-center items-center w-full h-full  max-h-full overflow-y-auto overflow-x-hidden bg-transparent backdrop-blur-xs bg-opacity-75'>
     <div className="relative p-4 w-full max-w-2xl max-h-full">
         {/* Model content */}
-        <div className='relative bg-[#D4D994] rounded-lg shadow-sm'>
+        <div className='relative bg-[#D4D994] rounded-lg shadow-2xl'>
             {/* Model header */}
 
             <div className='flex items-center justify-between p-4 md:p-5 border-b rounded-t border-red-900'>

@@ -11,6 +11,8 @@ import SelectDropdown from "../../componets/Inputs/SelectDropdown";
 import SelectUser from "../../componets/Inputs/SelectUser";
 import TodoListInput from "../../componets/Inputs/TodoListInput";
 import AddAttachmentInput from "../../componets/Inputs/AddAttachmentInput";
+import DeleteAlert from "../../componets/DeleteAlert";
+import Model from "../../componets/Model";
 
 const CreateTask = () => {
   const location = useLocation();
@@ -59,35 +61,125 @@ const CreateTask = () => {
     setLoading(true);
 
     try {
-      const todoList = taskData.todoChecklist?.map((item) => ({
-        text: item,
-        complete: false,
-      }));
+      // Ensure dueDate is properly formatted as a Date object
+      const formattedDueDate = taskData.dueDate
+        ? new Date(taskData.dueDate).toISOString()
+        : new Date().toISOString();
 
-      // assignedTo is already an array of user IDs (strings)
-      const assignedToIds = taskData.assignedTo;
+      // Ensure assignedTo is properly formatted as an array of strings
+      const assignedToIds = Array.isArray(taskData.assignedTo)
+        ? taskData.assignedTo.filter((id) => id && id.trim())
+        : [];
 
-      const response = await axiosInstance.post(API_PATHS.TASKS.CREATE_TASK, {
-        ...taskData,
-        priority: taskData.priority.toLowerCase(),
-        dueDate: new Date(taskData.dueDate).toISOString(),
-        todoChecklist: todoList,
+      // Ensure todoChecklist is properly formatted
+      const todoList = Array.isArray(taskData.todoChecklist)
+        ? taskData.todoChecklist.map((item) => {
+            if (typeof item === "string") {
+              return {
+                text: item,
+                completed: false,
+              };
+            }
+            return {
+              text: item.text || "",
+              completed: Boolean(item.completed),
+            };
+          })
+        : [];
+
+      const payload = {
+        title: taskData.title?.trim() || "",
+        description: taskData.description?.trim() || "",
+        priority: taskData.priority?.toLowerCase() || "low",
+        dueDate: formattedDueDate,
         assignedTo: assignedToIds,
-      });
+        todoChecklist: todoList,
+        attachments: Array.isArray(taskData.attachments)
+          ? taskData.attachments
+          : [],
+      };
+
+      const response = await axiosInstance.post(
+        API_PATHS.TASKS.CREATE_TASK,
+        payload
+      );
 
       toast.success("Task created successfully");
       clearData();
+      navigate("/admin/tasks"); // Redirect after successful creation
     } catch (error) {
-      // Properly set error message
-      setError(error.response?.data?.message || "Error creating task");
+      console.error("Create task error:", error);
+      setError(
+        error.response?.data?.message ||
+          "Error creating task. Please check all fields and try again."
+      );
     } finally {
       setLoading(false);
     }
   };
 
   // Update task
-  const updateTask = async () => {};
+  const updateTask = async () => {
+    setLoading(true);
 
+    try {
+      // Ensure dueDate is properly formatted as a Date object
+      const formattedDueDate = taskData.dueDate
+        ? new Date(taskData.dueDate).toISOString()
+        : new Date().toISOString();
+
+      // Ensure assignedTo is properly formatted as an array of strings
+      const assignedToIds = Array.isArray(taskData.assignedTo)
+        ? taskData.assignedTo.filter((id) => id && id.trim())
+        : [];
+
+      // Ensure todoChecklist is properly formatted
+      const todoList = Array.isArray(taskData.todoChecklist)
+        ? taskData.todoChecklist.map((item) => {
+            if (typeof item === "string") {
+              return {
+                text: item,
+                completed: false,
+              };
+            }
+            return {
+              text: item.text || "",
+              completed: Boolean(item.completed),
+            };
+          })
+        : [];
+
+      const payload = {
+        title: taskData.title?.trim() || "",
+        description: taskData.description?.trim() || "",
+        priority: taskData.priority?.toLowerCase() || "low",
+        dueDate: formattedDueDate,
+        assignedTo: assignedToIds,
+        todoChecklist: todoList,
+        attachments: Array.isArray(taskData.attachments)
+          ? taskData.attachments
+          : [],
+      };
+
+      const response = await axiosInstance.put(
+        API_PATHS.TASKS.UPDATE_TASK(taskId),
+        payload
+      );
+
+      toast.success("Task updated successfully");
+      navigate("/admin/tasks"); // Redirect after successful update
+    } catch (error) {
+      console.error("Update task error:", error);
+      setError(
+        error.response?.data?.message ||
+          "Error updating task. Please check all fields and try again."
+      );
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // handling submit input to check admin doesn't enter any unfilled inputs
   const handleSubmit = async () => {
     setError(null);
 
@@ -138,7 +230,9 @@ const CreateTask = () => {
           dueDate: taskInfo.dueDate
             ? moment(taskInfo.dueDate).format("YYYY-MM-DD")
             : null,
-          assignedTo: taskInfo?.assignedTo?.map((member) => member.id || []),
+          assignedTo:
+            taskInfo?.assignedTo?.map((member) => member._id || member.id) ||
+            [],
           todoChecklist: taskInfo?.todoChecklist || [],
           attachments: taskInfo?.attachments || [],
         }));
@@ -149,7 +243,21 @@ const CreateTask = () => {
   };
 
   // delete task
-  const deleteTask = async () => {};
+  const deleteTask = async () => {
+    try {
+      await axiosInstance.delete(API_PATHS.TASKS.DELETE_TASK(taskId));
+
+      setOpenDeleteAlert(false);
+      toast.success("Task deleted successfully");
+      navigate("/admin/tasks"); // redirect successfully after deleting
+    } catch (error) {
+      console.error(
+        "Error deleting task:",
+        error.response?.data?.message || error.message
+      );
+      toast.error(error.response?.data?.message || "Failed to delete task");
+    }
+  };
 
   useEffect(() => {
     if (taskId) {
@@ -300,6 +408,17 @@ const CreateTask = () => {
           </div>
         </div>
       </div>
+
+      <Model
+        isOpen={openDeleteAlert}
+        onClose={() => setOpenDeleteAlert(false)}
+        title="Delete Task"
+      >
+        <DeleteAlert
+          context="Are you sure you want to delte this task?"
+          onDelete={() => deleteTask()}
+        />
+      </Model>
     </DashboardLayout>
   );
 };
