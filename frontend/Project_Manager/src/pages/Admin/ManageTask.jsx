@@ -62,7 +62,26 @@ const ManageTask = () => {
   };
 
   // download task report
-  const handleDownloadReport = async () => {};
+  const handleDownloadReport = async () => {
+    try {
+          const response = await axiosInstance.get(API_PATHS.REPORT.EXPORT_TASKS,{
+            responseType: 'blob', // blob: binary large object data
+          });
+    
+          // create url for the blob
+          const url = window.URL.createObjectURL(new Blob([response.data]));
+          const link = document.createElement('a');
+          link.href = url;
+          link.setAttribute('download', 'tasks_details.xlsx');
+          document.body.appendChild(link);
+          link.click();
+          link.parentNode.removeChild(link);
+          window.URL.revokeObjectURL(url);
+        } catch (error) {
+          console.error("Error downloading tasks details:", error);
+          toast.error("Failed to download tasks details. Please try again.");
+        }
+  };
 
   // filter tasks by status
   useEffect(() => {
@@ -96,7 +115,7 @@ const ManageTask = () => {
             />
 
             <button
-              className="flex md:hidden item-center gap-3 text-[15px] font-bold md:text[13px] bg-[#d4d994] text-[#536623] px-2 md:px-3 py-2 rounded border hover:bg-[#d2d96d] hover:text-[#3d4d1a] cursor-pointer"
+              className="md:flex hidden item-center gap-3 text-[15px] font-bold md:text[13px] bg-[#d4d994] text-[#536623] px-2 md:px-3 py-2 rounded border hover:bg-[#d2d96d] hover:text-[#3d4d1a] cursor-pointer"
               onClick={handleDownloadReport}
             >
               <LuFileSpreadsheet className="text-lg" />

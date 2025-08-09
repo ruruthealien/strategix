@@ -4,6 +4,7 @@ import axiosInstance from '../../utils/axiosInstance';
 import { API_PATHS } from '../../utils/apiPaths';
 import { LuFileSpreadsheet } from 'react-icons/lu';
 import UserCard from '../../componets/Cards/UserCard';
+import toast from 'react-hot-toast';
 
 const ManageUsers = () => {
   const [allUsers, setAllUsers] = useState([]);
@@ -22,8 +23,26 @@ const ManageUsers = () => {
   };
  
   // Download task report
-  const handleDownloadReport = async () => {};
+  const handleDownloadReport = async () => {
+    try {
+      const response = await axiosInstance.get(API_PATHS.REPORT.EXPORT_USERS,{
+        responseType: 'blob', // blob: binary large object data
+      });
 
+      // create url for the blob
+      const url = window.URL.createObjectURL(new Blob([response.data]));
+      const link = document.createElement('a');
+      link.href = url;
+      link.setAttribute('download', 'users_details.xlsx');
+      document.body.appendChild(link);
+      link.click();
+      link.parentNode.removeChild(link);
+      window.URL.revokeObjectURL(url);
+    } catch (error) {
+      console.error("Error downloading users details:", error);
+      toast.error("Failed to download users details. Please try again.");
+    }
+  };
 
   useEffect(() => {
     getAllUsers();
