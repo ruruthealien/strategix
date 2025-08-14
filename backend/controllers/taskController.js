@@ -71,14 +71,22 @@ const getTasks = async(req, res) => {
 // **done**
 const getTaskById = async(req, res) => {
     try {
+        console.log("Fetching task with ID:", req.params.id);
         const task = await Task.findById(req.params.id).populate("assignedTo", "name email profileImageUrl");
         if (!task) {
+            console.log("Task not found for ID:", req.params.id);
             return res.status(404).json({ message: "Task not found" });
         }
 
         res.json(task);
     } catch (error) {
-        res.status(500).json({ message: "Server Error", error: error.message });
+        console.error("Error in getTaskById:", error);
+        console.error("Request params:", req.params);
+        console.error("Request user:", req.user);
+        if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+            return res.status(400).json({ message: "Invalid task ID" });
+        }
+
     }
 };
 
@@ -280,7 +288,7 @@ const getDashboardData = async(req, res) => {
             return acc;
         }, {});
 
-        taskDistribution["all"] = totalTasks;
+        taskDistribution["all"] = totalTasks; // here was the main error for not getting the total task coz the value was"All"
 
         // Ensure all priority levels are included (use lowercase if your enum uses lowercase)
         const taskPriorities = ["low", "medium", "high"];
@@ -356,7 +364,7 @@ const getUserDashboardData = async(req, res) => {
             acc[status.replace(/\s+/g, "")] = found ? found.count : 0;
             return acc;
         }, {});
-        taskDistribution["All"] = totalTasks;
+        taskDistribution["all"] = totalTasks;
 
 
         // task distribution by priority

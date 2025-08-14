@@ -124,7 +124,7 @@ const exportUsersReport = async(req, res) => {
         ];
         // Add rows
         Object.values(userTaskMap).forEach(user => {
-            user.totalTasks = user.pendingTasks + user.inProgressTasks + user.completedTasks;
+            user.totalTasks = user.taskCount; // Use taskCount as total assigned tasks
             worksheet.addRow(user);
         });
 
